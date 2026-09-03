@@ -5,31 +5,41 @@ export function createDesktopShell(rootElement, profile) {
     "    <pre id=\"boot-log\" class=\"boot-log\"></pre>",
     "  </section>",
     "  <section id=\"crash-screen\" class=\"crash-screen hidden\">",
-    "    <div class=\"crash-container\">",
-    "      <div class=\"crash-header\">",
-    "        <div class=\"crash-sad-face\">:(</div>",
-    "        <div class=\"crash-title-section\">",
-    "          <div class=\"crash-title\"><span id=\"crash-os-name\">DEMICUBEOS</span> KERNEL_PANIC</div>",
-    "          <p class=\"crash-subtitle\" id=\"crash-message\">System encountered an unrecoverable error and was forced to halt.</p>",
+    "    <div class=\"crash-bg\">",
+    "      <div class=\"crash-content\">",
+    "        <div class=\"crash-left\">",
+    "          <div class=\"crash-header\">",
+    "            <div class=\"crash-title\"><span id=\"crash-os-name\">DEMICUBEOS</span> KERNEL_PANIC</div>",
+    "            <p class=\"crash-subtitle\" id=\"crash-message\">System encountered an unrecoverable error and was forced to halt.</p>",
+    "          </div>",
+    "          <div class=\"crash-details\">",
+    "            <div class=\"crash-section\">",
+    "              <div class=\"crash-label\">STOP CODE:</div>",
+    "              <div class=\"crash-value\" id=\"crash-stop-code\">CRITICAL_SECURITY_VIOLATION_0x0000007E</div>",
+    "            </div>",
+    "            <div class=\"crash-section\">",
+    "              <div class=\"crash-label\">Faulting Module:</div>",
+    "              <div class=\"crash-value\">libenclave_crypto.so+0x4a9f</div>",
+    "            </div>",
+    "            <div class=\"crash-section\">",
+    "              <div class=\"crash-label\">Physical Memory Core Dump:</div>",
+    "              <div id=\"crash-dump-progress\" class=\"crash-dump-bar\"><div class=\"crash-dump-fill\"></div></div>",
+    "              <div class=\"crash-dump-text\"><span id=\"crash-dump-pct\">0%</span> | <span id=\"crash-dump-info\">0 MB / 16384 MB</span></div>",
+    "            </div>",
+    "          </div>",
+    "          <div class=\"crash-footer\">",
+    "            <p class=\"crash-footer-text\">System will automatically reboot...</p>",
+    "          </div>",
     "        </div>",
-    "      </div>",
-    "      <div class=\"crash-details\">",
-    "        <div class=\"crash-section\">",
-    "          <div class=\"crash-label\">STOP CODE:</div>",
-    "          <div class=\"crash-value\" id=\"crash-stop-code\">CRITICAL_SECURITY_VIOLATION_0x0000007E</div>",
+    "        <div class=\"crash-right\">",
+    "          <div class=\"crash-sad-face\">:(</div>",
+    "          <div class=\"crash-error-message\">",
+    "            <p><strong>Your PC ran into a problem and needs to restart.</strong></p>",
+    "            <p>We're just collecting some error info, and then we'll restart for you.</p>",
+    "            <p style=\"margin-top: 20px;\">For more information about this issue and possible fixes, visit</p>",
+    "            <p style=\"font-weight: bold;\"><span id=\"crash-url-osname\">demicubeos</span>.com</p>",
+    "          </div>",
     "        </div>",
-    "        <div class=\"crash-section\">",
-    "          <div class=\"crash-label\">Faulting Module:</div>",
-    "          <div class=\"crash-value\">libenclave_crypto.so+0x4a9f</div>",
-    "        </div>",
-    "        <div class=\"crash-section\">",
-    "          <div class=\"crash-label\">Physical Memory Core Dump:</div>",
-    "          <div id=\"crash-dump-progress\" class=\"crash-dump-bar\"><div class=\"crash-dump-fill\"></div></div>",
-    "          <div class=\"crash-dump-text\"><span id=\"crash-dump-pct\">0%</span> | <span id=\"crash-dump-info\">0 MB / 16384 MB</span></div>",
-    "        </div>",
-    "      </div>",
-    "      <div class=\"crash-footer\">",
-    "        <p class=\"crash-footer-text\">System will automatically reboot...</p>",
     "      </div>",
     "    </div>",
     "  </section>",
@@ -108,6 +118,7 @@ export function createDesktopShell(rootElement, profile) {
   const bootScreen = document.getElementById("boot-screen");
   const crashScreen = document.getElementById("crash-screen");
   const crashOsName = document.getElementById("crash-os-name");
+  const crashUrlOsName = document.getElementById("crash-url-osname");
   const crashMessage = document.getElementById("crash-message");
   const crashStopCode = document.getElementById("crash-stop-code");
   const crashDumpFill = document.querySelector(".crash-dump-fill");
@@ -365,6 +376,7 @@ export function createDesktopShell(rootElement, profile) {
     bootScreen.classList.add("hidden");
     crashScreen.classList.remove("hidden");
     crashOsName.textContent = osName.toUpperCase();
+    crashUrlOsName.textContent = osName.toLowerCase();
     crashMessage.textContent = osName + " encountered an unrecoverable security enclave violation and was forced to halt execution.";
     crashDumpFill.style.width = "0%";
     crashDumpPct.textContent = "0%";
